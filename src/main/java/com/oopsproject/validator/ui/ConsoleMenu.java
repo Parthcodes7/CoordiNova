@@ -19,7 +19,7 @@ import java.util.Scanner;
  * 
  * Simple to explain to Sir:
  * - Uses java.util.Scanner to take user input from keyboard (System.in).
- * - A while loop keeps the menu running until option 6 (Exit) is selected.
+ * - A while loop keeps the menu running until option 7 (Exit) is selected.
  * - A switch-case structure routes user input to corresponding methods.
  */
 public class ConsoleMenu {
@@ -44,7 +44,7 @@ public class ConsoleMenu {
         boolean running = true;
         while (running) {
             printMenu();
-            System.out.print("👉 Enter your choice (1-6): ");
+            System.out.print("👉 Enter your choice (1-7): ");
             if (!scanner.hasNextLine()) {
                 break;
             }
@@ -67,11 +67,14 @@ public class ConsoleMenu {
                     launchGuiMenu();
                     break;
                 case "6":
+                    launchWebMenu();
+                    break;
+                case "7":
                     running = false;
                     System.out.println("\nExiting Coordinate Validator. Thank you!\n");
                     break;
                 default:
-                    System.out.println("\n[!] Invalid option. Please enter a number between 1 and 6.");
+                    System.out.println("\n[!] Invalid option. Please enter a number between 1 and 7.");
             }
         }
     }
@@ -83,7 +86,8 @@ public class ConsoleMenu {
         System.out.println(" 3. View Validation Report Summary");
         System.out.println(" 4. Export Report to File (TXT or CSV)");
         System.out.println(" 5. Launch Desktop GUI Window (Swing)");
-        System.out.println(" 6. Exit");
+        System.out.println(" 6. Launch Web UI (Browser)");
+        System.out.println(" 7. Exit");
         if (currentFilePath != null) {
             System.out.println("---------------------------------------------------------");
             System.out.println(" Active Dataset: " + currentFilePath);
@@ -183,6 +187,16 @@ public class ConsoleMenu {
             System.out.println("[✓] Desktop GUI window opened.");
         } catch (Exception e) {
             System.err.println("[✗] Could not open GUI window (headless/display issue): " + e.getMessage());
+        }
+    }
+
+    private void launchWebMenu() {
+        System.out.println("\nStarting internal Web UI Server...");
+        try {
+            WebUIServer webServer = new WebUIServer();
+            webServer.startServer();
+        } catch (Exception e) {
+            System.err.println("[✗] Could not start Web Server: " + e.getMessage());
         }
     }
 }
